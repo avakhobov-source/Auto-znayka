@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Автознайка</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#bfe8ff;}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;font-family:system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>/*i18n*/(function(){
+var D={" с":" with","Ночь":"Night","Закат":"Sunset","Игрок":"Player","Скины":"Skins","Шляпа":"Hat","Этап ":"Stage "," 🍌 до ":" 🍌 to ","Выбран":"Selected","Король":"King","Ниндзя":"Ninja","Закрыть":"Close","Победа!":"Victory!","Серия x":"Streak x","← Назад":"← Back","👔 Скины":"👔 Skins","Бананчик":"Banana Man","Дальше ▶":"Next ▶","Классика":"Classic","Магнит 🧲":"Magnet 🧲","Рекорд: ":"Best: ","▶ Играть":"▶ Play","▶ Реванш":"▶ Rematch","+жизнь ❤️":"+life ❤️","Бананов: ":"Bananas: ","Загрузка…":"Loading…","Кокос! −1":"Coconut! −1","🏆 Рекорды":"🏆 Records","+5 ЗОЛОТО!":"+5 GOLD!","Бананчик 🍌":"Banana Man 🍌"," 🍌 — побей!":" 🍌 — beat it!","Не хватило ":"Short by ","Новый скин!":"New skin!","Ты обогнал ":"You beat ","⚔ Я собрал ":"⚔ I collected ","Бонус дня: +":"Daily bonus: +","Игра окончена":"Game over","🎁 Бонус дня +":"🎁 Daily bonus +","🏆 Мои рекорды":"🏆 My records","БОСС-ОБЕЗЬЯНА!":"MONKEY BOSS!","Друг пришёл! +":"A friend joined! +","Остров Бананов":"Banana Island","▶ Играть снова":"▶ Play again","▶ Обычная игра":"▶ Normal game","🍌 В кошельке: ":"🍌 In wallet: ","🏆 Ты победил: ":"🏆 You won: ","Обезьяна злится":"The monkey is angry","Обезьяна рядом!":"Monkey nearby!","🏆 Лучшие игроки":"🏆 Top players","Шкурка! Скользко":"Peel! Slippery","⚔ Ответный вызов":"⚔ Challenge back","🏆 Новый рекорд: ":"🏆 New record: ","Босс побеждён! +10":"Boss defeated! +10","Не хватает бананов":"Not enough bananas","Продолжение через ":"Continue in ","🥥 Кокос = −1 жизнь":"🥥 Coconut = −1 life","Тапни, чтобы начать":"Tap to start","Пока пусто — сыграй!":"Nothing yet — play!","🌟 Золотой банан = +5":"🌟 Golden banana = +5","⚔ Бросить вызов другу":"⚔ Challenge a friend","📺 Здесь будет реклама":"📺 An ad will play here","Лови бананы со мной! 🍌":"Catch bananas with me! 🍌","❤️ Сердечко = +1 жизнь":"❤️ Heart = +1 life","📺 Продолжить (реклама)":"📺 Continue (ad)","👆 Води пальцем и лови 🍌":"👆 Drag your finger and catch 🍌","👥 Позвать друга (+50 🍌)":"👥 Invite a friend (+50 🍌)","Тапни, чтобы сыграть ещё":"Tap to play again","Пока никого. Стань первым!":"Nobody yet. Be the first!","Води пальцем — лови бананы.":"Drag your finger to catch bananas.","Шкурка = скользишь 2,5 сек.":"Peel = you slide for 2.5 sec.","Дальше — быстрее и с ветром!":"Next — faster, with wind!","Куплен — тапни, чтобы выбрать":"Owned — tap to select","⚔ Вызов другу (+50 🍌 за друга)":"⚔ Challenge a friend (+50 🍌 per friend)"," 🍌 в «Бананчике». Сможешь больше?":" 🍌 in \"Banana Man\". Can you beat it?","Ссылка скопирована — отправь другу":"Link copied — send it to a friend","Не удалось загрузить. Проверь интернет.":"Could not load. Check your internet.","Води пальцем · лови 🍌 · 🥥 −1 жизнь · шкурка = скользко":"Drag · catch 🍌 · 🥥 −1 life · peel = slippery","Следы ведут к логову Обезьяны. Лови бананы — они освещают дорогу!":"The tracks lead to the Monkey's lair. Catch bananas — they light the way!","Поднялся ветер, а с неба летят зелёные кокосы-зигзаги. Держись, Тёмик!":"The wind picks up and green zigzag coconuts fall from the sky. Hang on, Tyomik!","«Не отдам!» — кричит Обезьяна. Ещё немного, и Золотой банан будет у тебя.":"\"I won't give it back!\" shouts the Monkey. A little more and the Golden Banana is yours.","«Ха-ха! Золотой банан теперь мой!» Уворачивайся от её кокосов целых 12 секунд!":"\"Ha-ha! The Golden Banana is mine now!\" Dodge her coconuts for 12 whole seconds!","Злая Обезьяна украла Золотой банан, и остров загрустил. Помоги Тёмику собрать бананы и вернуть его!":"The mean Monkey stole the Golden Banana and the island is sad. Help Tyomik collect bananas and get it back!","Обезьяна сдалась и вернула Золотой банан. Остров снова радуется! Награда: +50 🍌. Играй дальше, джунгли большие!":"The Monkey gave up and returned the Golden Banana. The island is happy again! Reward: +50 🍌. Keep playing, the jungle is big!","Бам!":"Bam!","Гараж":"Garage","День ":"Day ","Такси":"Taxi"," очков":" pts","Занос!":"Drift!","Молния":"Lightning","ТУРБО!":"TURBO!","Выбрать":"Select","Лови ⛽!":"Catch ⛽!","Монет: ":"Coins: ","Полиция":"Police"," м  ·  +":" m  ·  +","+1 жизнь":"+1 life","Пожарная":"Fire truck","🌈 Космос":"🌈 Space","🏁 Ехать!":"🏁 Go!","🏙️ Город":"🏙️ City","🏠 В меню":"🏠 Menu"," очков 🏎️":" pts 🏎️","Вжух! +15":"Whoosh! +15","Выбрана ✔":"Selected ✔","Молния 🏎️":"Lightning 🏎️","Монеты x2":"Coins x2","💥 Авария!":"💥 Crash!"," подряд! +":" in a row! +","🏁 Ещё раз!":"🏁 Again!","🏜️ Пустыня":"🏜️ Desert","Впритык! +5":"Close call! +5","Мало монет 💰":"Not enough coins 💰","Новая машина!":"New car!","Больше бензина":"More fuel"," 💰  ·  Рекорд: ":" 💰  ·  Best: ","🏆 Новый рекорд!":"🏆 New record!","Ссылка скопирована":"Link copied","⛽ Бензин закончился!":"⛽ Out of fuel!","👥 Позвать друга (+50 💰)":"👥 Invite a friend (+50 💰)","Покатай Молнию! Мой рекорд: ":"Drive Lightning! My best: ","👆 Води пальцем влево и вправо":"👆 Drag your finger left and right","Води пальцем. Лови ⛽ 💰 ⚡ и не врезайся!":"Drag to steer. Catch ⛽ 💰 ⚡ and don't crash!","❄️ Снег":"❄️ Snow","Луна":"Moon","Марс":"Mars","Далее":"Next","Земля":"Earth","Искра":"Spark","Звезда":"Star","Комета":"Comet","Нептун":"Neptune","Сатурн":"Saturn","Юпитер":"Jupiter","Пульсар":"Pulsar","⚔ Цель ":"⚔ Target ","💥 Взрыв ":"💥 Blast ","💥 Взрыв!":"💥 Blast!"," очк. до ":" pts to "," — побей!":" — beat it!","Цепочка x":"Chain x","🔁 Ещё раз":"🔁 Again","Чёрная дыра":"Black hole","⚔ Я набрал ":"⚔ I scored ","  ·  рекорд ":"  ·  best ","Новое тело: ":"New body: ","Лучшее тело: ":"Best body: ","Открыто тел: ":"Bodies found: ","Звёздный сплав":"Star Merge","Не переполняй!":"Don't overflow!","Нет мелких тел":"No small bodies","📅 Испытание дня":"📅 Daily challenge","+1 💥 за цепочку!":"+1 💥 for the chain!","СВЕРХНОВАЯ! +500":"SUPERNOVA! +500"," из 11  ·  рекорд ":" of 11  ·  best "," 💥 в следующей игре":" 💥 in the next game","👥 Позвать друга (+💥)":"👥 Invite a friend (+💥)","  ·  лучший сегодня: ":"  ·  best today: ","🔁 Реванш (те же шары)":"🔁 Rematch (same balls)","⚔ Вызов другу (+💥 за друга)":"⚔ Challenge a friend (+💥 per friend)","Одинаковые сливаются в большее!":"Matching ones merge into a bigger one!","Веди пальцем и отпусти — шар упадёт":"Drag and release — the ball drops","Соединяй одинаковые тела, дорасти до чёрной дыры":"Merge matching bodies and grow into a black hole","✨ Звёздный сплав: сливай планеты до чёрной дыры!":"✨ Star Merge: merge planets up to a black hole!"," в «Звёздном сплаве». У тебя будут те же шары — побьёшь?":" in \"Star Merge\". You get the same balls — can you beat it?","🚗 Гараж":"🚗 Garage","Ам!":"Yum!","Бао":"Bao","лук":"onion","лёд":"ice","рис":"rice","сыр":"cheese"," из ":" of ","Мими":"Mimi","Ммм!":"Mmm!","Ням!":"Nom!","Суши":"Sushi","мясо":"meat","хлеб":"bread","яйцо":"egg","Бинсу":"Bingsu","Гёдза":"Gyoza","Данго":"Dango","Зайка":"Bunny","Рамен":"Ramen","банан":"banana","лучок":"scallion","огонь":"fire","перец":"pepper","рыбка":"fish","Кимбап":"Kimbap","Нужно ":"Need ","бульон":"broth","кетчуп":"ketchup","клёцки":"dumplings","огурец":"cucumber","острая":"spicy","острый":"spicy","шпинат":"spinach"," · шаг ":" · step ","Корндог":"Corn dog","Онигири":"Onigiri","Хорошо!":"Good!","авокадо":"avocado","капуста":"cabbage","конфета":"candy","леденец":"lollipop","лимонад":"lemonade","майонез":"mayo","морковь":"carrot","печенье":"cookie","сосиска":"sausage","шоколад":"chocolate","✋ СТОП!":"✋ STOP!","Бибимбап":"Bibimbap","Покорми ":"Feed ","Тапай! 👆":"Tap! 👆","Токпокки":"Tteokbokki","картошка":"potato","клубника":"strawberry","макароны":"noodles","сухарики":"crumbs","   ·  без ":"   ·  without ","Вкусно! 🙂":"Tasty! 🙂","Вкуснота!":"Delicious!","Готово! 🎉":"Done! 🎉","Чаевые: +":"Tip: +","🏆 Рейтинг":"🏆 Ranking","Насыпь рис":"Add the rice","Положи рис":"Add rice"," пройден! 🎉":" complete! 🎉","Идеально! ⭐":"Perfect! ⭐","Меси тесто!":"Knead the dough!","   ·  рекорд ":"   ·  best "," · клиентов ":" · customers ","Налей бульон":"Pour the broth","Новый друг: ":"New friend: ","Острая паста":"Spicy paste","Полей соусом":"Add the sauce","Рисовая мука":"Rice flour","Свари лапшу!":"Boil the noodles!","Скрути ролл!":"Roll it up!","Вкусная кухня":"Tasty Kitchen","Добавь фрукты":"Add fruit","Защипни края!":"Pinch the edges!","Нарежь ножом!":"Cut with the knife!","Пожарь гёдзу!":"Fry the gyoza!","Помешай соус!":"Stir the sauce!","Всё съедено! 😋":"All eaten! 😋","Выбери начинку":"Choose a filling","Добавь начинку":"Add the filling","Кафе закрыто 😢":"Cafe closed 😢","Крепко скрути!":"Roll it tight!","Скатай шарики!":"Roll the balls!","🍽 Другое блюдо":"🍽 Another dish","Выбери нужное (":"Pick the right ones (","Дней пройдено: ":"Days survived: ","Нарежь кусочки!":"Cut into pieces!","Очень вкусно! 😋":"Very tasty! 😋","Полей молочком!":"Pour the milk!","Раскатай тесто!":"Roll out the dough!","Сладкая начинка":"Sweet filling","Бонус за день: +":"Daily bonus: +","Восхитительно! 😍":"Wonderful! 😍","Добавь вкусности":"Add toppings","Обмакни в тесто!":"Dip in the batter!","Ой, пересолили 😅":"Oops, too salty 😅","▶ Следующий день":"▶ Next day","Обваляй в крошках":"Coat in crumbs","Рецепт по заказу:":"Recipe by order:","Хорошо перемешай!":"Mix it well!","Клиентов за игру: ":"Customers this game: ","Надень на палочку!":"Put it on the stick!","Положи рис в миску":"Put rice in the bowl","Слепи треугольник!":"Shape a triangle!","Дай соусу покипеть!":"Let the sauce simmer!","Добавь овощи и яйцо":"Add veggies and egg","Потеряно сердечко: ":"Heart lost: ","Заверни в водоросли!":"Wrap in seaweed!","Клиентов обслужено: ":"Customers served: ","Завтра будет труднее!":"Tomorrow will be harder!","Насыпь ледяной крошки":"Add shaved ice","Положи рисовые клёцки":"Add rice dumplings","🔁 Приготовить ещё раз":"🔁 Cook again","Клиент ушёл голодным 😢":"The customer left hungry 😢","Пожарь до золотистого!":"Fry until golden!","👥 Позвать друга (+15 🪙)":"👥 Invite a friend (+15 🪙)","  ·  новый рекорд блюда!":"  ·  new dish record!","Добавь острый соус и сыр":"Add spicy sauce and cheese","Ой, это сюда не нужно! 🙈":"Oops, that doesn't go here! 🙈","Столько не нужно! ⏱ −3 сек":"That's too much! ⏱ −3 sec","Тапай по тарелке — осталось ":"Tap the plate — left: ","Этого нет в заказе! ⏱ −3 сек":"That's not in the order! ⏱ −3 sec","☕ Кафе — для настоящих поваров":"☕ Cafe — for real chefs","Жми СТОП, когда метка в зелёном!":"Press STOP when the marker is in the green!","Я готовлю вкусности в игре «Вкусная кухня»! 🍜🍣🥟":"I'm cooking yummy food in \"Tasty Kitchen\"! 🍜🍣🥟","Готовь корейские и японские блюда и корми друзей!":"Cook Korean & Japanese food!","Пик":"Pik","Лёли":"Lyolya's","Лёля":"Lyolya","Пика":"Pik's",", Пик ":", Pik ","Ничья ":"Draw ","Старт!":"Start!","Рыбалка":"Fishing"," из 10. ":" of 10. ","Начать ▶":"Start ▶","Поехали!":"Let's go!","К финалу 🌌":"To the finale 🌌","Лови рыбку":"Catch the fish","Пик и Лёля":"Pik and Lyolya","Синхронно: ":"In sync: ","Счёт: Лёля ":"Score: Lyolya "," побеждает: ":" wins: ","Желание для ":"A wish for ","/10  ·  игр: ":"/10  ·  games: ","Ледяная горка":"Ice Slide","Ледяной кубок":"Ice Cup","🔁 Сыграть ещё":"🔁 Play again","👥 Позвать пару":"👥 Invite your partner","Ледяной кубок 🐧":"Ice Cup 🐧","Северное сияние":"Northern Lights","▶ Играть вдвоём":"▶ Play together","Вместе навсегда!":"Together forever!","Забег по льдинам":"Ice Floe Run","Сияние зажглось!":"The lights are on!","Рекорд синхрона: ":"Sync record: ","Сияние горит ярко!":"The lights shine bright!","Обнять на 20 секунд":"Hug for 20 seconds","🏆 Рекорд синхрона: ":"🏆 Sync record: ","🏆 Новый рекорд синхрона: ":"🏆 New sync record: ","Оба: обнимитесь на 20 секунд":"Both: hug for 20 seconds","Сделать смешное селфи вдвоём":"Take a funny selfie together","Сказать 3 тёплых комплимента":"Give 3 warm compliments","Всего побед за все игры: Лёля ":"Total wins across all games: Lyolya ","Вспомнить ваше первое свидание":"Remember your first date","Написать партнёру милую записку":"Write your partner a sweet note","Первое состязание Полярных игр!":"The first event of the Polar Games!","Сделать массаж плеч на 1 минуту":"Give a 1-minute shoulder massage","Пингвины идут рыбачить к проруби.":"The penguins go fishing at the ice hole.","Выбрать фильм на сегодняшний вечер":"Pick tonight's movie","Рассказать, за что любишь партнёра":"Say what you love about your partner","5 состязаний, желания и общий финал":"5 events, wishes and a shared finale","Пик и Лёля: Полярные игры для двоих":"Pik and Lyolya: Polar Games for Two","Выбрать место для следующего свидания":"Choose the place for your next date","Помыть посуду сегодня вместо партнёра":"Do the dishes for your partner today","Приготовить чай или кофе для партнёра":"Make tea or coffee for your partner","Станцевать 30 секунд под любимую песню":"Dance for 30 seconds to your favorite song","Сияние слабое, но главное, что вы рядом.":"The lights are dim, but what matters is you're together.","Поцеловать в щёку и сказать «ты лучший(ая)»":"Kiss on the cheek and say \"you're the best\"","С неба сыплются рыбки, а Скуа бросает снежки!":"Fish rain from the sky and Skua throws snowballs!","Чайка Скуа смазала горку маслом, санки летят быстро.":"Skua the gull greased the slide, and the sleds fly fast.","Остался последний шаг. Сияние зажигают только вдвоём.":"One last step. The lights can only be lit by two."," Пик. Настоящая победа в том, чтобы быть рядом. Обнимитесь! ❤️":" Pik. The real victory is being together. Hug! ❤️","Давай сыграем вдвоём: Пик против Лёли! Проигравший исполняет желание 🐧❤️":"Let's play together: Pik vs Lyolya! The loser fulfills a wish 🐧❤️","Води пальцем по своей половине. Лови рыбок 🐟 и уворачивайся от снежков ⛄.":"Drag on your half. Catch fish 🐟 and dodge snowballs ⛄.","Тапайте ОДНОВРЕМЕННО, когда кольцо сожмётся. Победителя нет, нужно быть в унисон!":"Tap AT THE SAME TIME when the ring shrinks. There is no winner — be in sync!","Тапай по своей половине, чтобы прыгать через льдины. Кто убежит дальше, тот победил.":"Tap your half to jump over the floes. Whoever runs farther wins.","Тапай, когда бегунок попадёт в зелёную зону. В золотом центре рыба считается за две!":"Tap when the slider hits the green zone. In the golden center a fish counts as two!","Тапай по очереди то слева, то справа. Если тапать в одну сторону, санки едут медленнее.":"Tap left and right in turns. If you tap one side only, the sled goes slower.","  ·  без ":"  ·  without ","Пингвины Пик и Лёля любят друг друга, но обожают соревноваться. Пять состязаний Полярных игр: в четырёх из них проигравший исполняет желание победителя, а в последнем сияние зажигают вместе.":"Penguins Pik and Lyolya love each other, but they love to compete. Five events of the Polar Games: in four of them the loser fulfills the winner's wish, and in the last one they light the aurora together.","Готовь блюда разных стран!":"Cook dishes from around the world!","Замеси тесто":"Make the dough","Корея":"Korea","Налей тесто":"Pour the batter","Открой Корею: ":"Unlock Korea first: ","Переверни шарики!":"Flip the balls!","Секрет":"Secret","Секретное блюдо: ":"Secret dish: ","Скоро новая страна!":"A new country is coming soon!","Таиланд":"Thailand","Такояки":"Takoyaki","Хотток":"Hotteok","Япония":"Japan","в этой стране":"in this country","молоко":"milk","мука":"flour","мёд":"honey","орешки":"nuts","осьминог":"octopus","рыбная стружка":"bonito flakes","тесто":"batter","⭐ Заказ ×2":"⭐ Deal ×2","⭐ Заказ дня: награда ×2!":"⭐ Daily order: reward ×2!","🇯🇵 Открыта новая страна: Япония!":"🇯🇵 New country unlocked: Japan!","Автознайка":"Car Quiz","Угадай машину!":"Guess the car!","🚗 Что это за машина?":"🚗 What car is this?","🌑 Чья тень?":"🌑 Whose shadow?","🔰 Найди значок":"🔰 Find the badge","👥 Позвать друга":"👥 Invite a friend","👥 Позвать друга (+20 ⭐)":"👥 Invite a friend (+20 ⭐)","Что это за машина?":"What car is this?","Чья это тень?":"Whose shadow is this?","Какой значок у этой машины?":"Which badge fits this car?","Марка «":"Brand \"","»":"\"","Отлично! 🎉":"Excellent! 🎉","Молодец! 👍":"Well done! 👍","Хорошо! 🙂":"Good! 🙂","Верно с первого раза: ":"Right on the first try: "," из 10":" of 10","Скорая помощь":"Ambulance","Бульдозер":"Bulldozer","Самосвал":"Dump truck","Гоночная":"Race car","Автобус":"Bus","Трактор":"Tractor","Джип":"Jeep","ТАКСИ":"TAXI","Звёздочка":"Little Star","Корона":"Crown","Волна":"Wave","Солнышко":"Sunny","Щит":"Shield","Угадай машину! Я набрал ":"Guess the car! I scored "," ⭐ в «Автознайке» 🚗":" ⭐ in \"Car Quiz\" 🚗","Марка: ":"Brand: "};
+var RU={ru:1,be:1,uk:1,kk:1,ky:1,tg:1,uz:1,hy:1,az:1,ka:1,tk:1,mo:1};
+var lang='ru';
+try{var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+var tg=window.Telegram&&window.Telegram.WebApp,u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
+var c=q||(u&&u.language_code)||(navigator.language||'ru');c=String(c).toLowerCase().slice(0,2);lang=RU[c]?'ru':'en';}catch(e){}
+function T(s){
+ if(lang==='ru'||typeof s!=='string')return s;
+ var r=D[s];if(r!==undefined)return r;
+ if(s.indexOf('<')>=0)return s.replace(/>([^<>]+)</g,function(m,t){var k=D[t];return '>'+(k!==undefined?k:t)+'<';});
+ return s;
+}
+window.T=T;window.__lang=lang;
+function walkDom(){if(lang==='ru')return;try{document.title=T(document.title);var w=document.createTreeWalker(document.body,4),n;while(n=w.nextNode()){var t=n.nodeValue.trim();if(t&&D[t])n.nodeValue=n.nodeValue.replace(t,D[t]);}}catch(e){}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',walkDom);else walkDom();
+try{document.documentElement.lang=lang;}catch(e){}
+})();
+/*end-i18n*/</script>
+<script>
+(function(){
+var tg=null;
+try{tg=window.Telegram&&window.Telegram.WebApp;if(tg){tg.ready();tg.expand();try{tg.disableVerticalSwipes();}catch(e){}}}catch(e){}
+var SHARE_URL='https://t.me/auto_znayka_game_bot/Znayka';
+var LB=(function(){
+var URL_='https://goxmwpjepbfeyxchdtce.supabase.co/rest/v1/scores',KEY='sb_publishable_MoDF_SQuqqlB59Txr3imug_eWsMhnfP',GAME='autoznaika';
+var el=null,rows=null,state='idle',myId=null;
+function TGW(){try{return window.Telegram&&window.Telegram.WebApp;}catch(e){return null;}}
+function uid(){if(myId)return myId;try{var u=TGW().initDataUnsafe.user;if(u&&u.id){myId='t'+u.id;return myId;}}catch(e){}
+try{var k=localStorage.getItem('lb_uid');if(!k){k='a'+Math.random().toString(36).slice(2,10);localStorage.setItem('lb_uid',k);}myId=k;}catch(e){myId='a'+Math.random().toString(36).slice(2,10);}return myId;}
+function nm(){try{var u=TGW().initDataUnsafe.user;if(u&&u.first_name)return u.first_name.slice(0,12);}catch(e){}return T('Игрок');}
+function hd(extra){var h={apikey:KEY,'Content-Type':'application/json'};if(extra)for(var k in extra)h[k]=extra[k];return h;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function load(cb){state='loading';fetch(URL_+'?game=eq.'+GAME+'&select=name,score,user_id&order=score.desc&limit=10',{headers:hd()}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(a){rows=a;state='ok';if(cb)cb();}).catch(function(){state='err';if(cb)cb();});}
+function submit(sc){sc=Math.floor(sc);if(!(sc>0))return;var id=uid();
+fetch(URL_+'?game=eq.'+GAME+'&user_id=eq.'+encodeURIComponent(id)+'&select=score',{headers:hd()}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(a){
+if(a.length&&a[0].score>=sc)return;
+return fetch(URL_+'?on_conflict=game,user_id',{method:'POST',headers:hd({Prefer:'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify({game:GAME,user_id:id,name:nm(),score:sc,updated_at:new Date().toISOString()})});
+}).catch(function(){});}
+function build(){el=document.createElement('div');el.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;z-index:99;background:rgba(10,5,30,.88);display:none;align-items:center;justify-content:center;font-family:system-ui,sans-serif';
+el.innerHTML=T('<div style="background:#fff;color:#222;border-radius:20px;width:min(340px,90vw);max-height:80vh;overflow:auto;padding:18px"><div style="font-size:22px;font-weight:800;text-align:center;margin-bottom:10px">🏆 Лучшие игроки</div><div id="lbl"></div><button id="lbx" style="margin-top:14px;width:100%;padding:13px;border:0;border-radius:12px;background:#8e5cf7;color:#fff;font-size:17px;font-weight:700">Закрыть</button></div>');
+document.body.appendChild(el);el.querySelector('#lbx').onclick=close;el.onclick=function(e){if(e.target===el)close();};}
+function paint(){if(!el)return;var l=el.querySelector('#lbl'),h='';
+if(state==='loading'||state==='idle')h=T('<div style="text-align:center;padding:20px;color:#777">Загрузка…</div>');
+else if(state==='err')h=T('<div style="text-align:center;padding:20px;color:#c33">Не удалось загрузить. Проверь интернет.</div>');
+else if(!rows.length)h=T('<div style="text-align:center;padding:20px;color:#777">Пока никого. Стань первым!</div>');
+else{var me=uid();for(var i=0;i<rows.length;i++){var r=rows[i],m=['🥇','🥈','🥉'][i]||(i+1)+'.';h+='<div style="display:flex;gap:10px;padding:9px 8px;border-radius:10px;'+(r.user_id===me?'background:#fff3b0;':(i%2?'background:#f4f0ff;':''))+'font-size:17px"><span style="width:32px">'+m+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.name)+'</span><b>'+r.score+'</b></div>';}}
+l.innerHTML=h;}
+function open(){if(!el)build();el.style.display='flex';paint();load(paint);}
+function close(){if(el)el.style.display='none';}
+return {open:open,submit:submit};
+})();
+var REF=(function(){
+var URL_='https://goxmwpjepbfeyxchdtce.supabase.co/rest/v1/scores',KEY='sb_publishable_MoDF_SQuqqlB59Txr3imug_eWsMhnfP';
+function TGW(){try{return window.Telegram&&window.Telegram.WebApp;}catch(e){return null;}}
+function id(){try{var u=TGW().initDataUnsafe.user;if(u&&u.id)return String(u.id);}catch(e){}return '';}
+function nm(){try{var u=TGW().initDataUnsafe.user;if(u&&u.first_name)return u.first_name.slice(0,12);}catch(e){}return T('Игрок');}
+function hd(x){var h={apikey:KEY,'Content-Type':'application/json'};if(x)for(var k in x)h[k]=x[k];return h;}
+function startParam(){try{return TGW().initDataUnsafe.start_param||'';}catch(e){return '';}}
+function fromParam(sp){return /^r\d+$/.test(sp||'')?sp.slice(1):'';}
+function link(base){var me=id();return (me&&base)?base+'?startapp=r'+me:base;}
+function register(inv){
+  try{if(!inv||!id()||inv===id())return;if(localStorage.getItem('ref_done'))return;}catch(e){return;}
+  fetch(URL_+'?on_conflict=game,user_id',{method:'POST',headers:hd({Prefer:'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify({game:'ref:'+inv,user_id:id(),name:nm(),score:1})}).then(function(r){if(r.ok){try{localStorage.setItem('ref_done','1');}catch(e){}}}).catch(function(){});
+}
+function claim(key,cb){
+  var me=id();if(!me)return;
+  fetch(URL_+'?game=eq.ref:'+me+'&select=user_id',{headers:hd()}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(a){
+    var n=a.length,k='ref_claimed_'+key,d=0;try{d=+localStorage.getItem(k)||0;}catch(e){}
+    if(n>d){try{localStorage.setItem(k,String(n));}catch(e){}cb(n-d);}
+  }).catch(function(){});
+}
+return {id:id,link:link,register:register,claim:claim,fromParam:fromParam,startParam:startParam};
+})();
+setTimeout(function(){try{REF.register(REF.fromParam(REF.startParam()));REF.claim('az',function(n){S.total+=20*n;save();toast(T('Друг пришёл! +')+20*n+' ⭐');});}catch(e){}},700);
+var cv=document.getElementById('c'),ctx=cv.getContext('2d'),W=0,H=0,DPR=1;
+function resize(){DPR=Math.min(2,window.devicePixelRatio||1);W=window.innerWidth;H=window.innerHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+window.addEventListener('resize',resize);resize();
+function satop(){try{return ((tg.safeAreaInset||{}).top||0)+((tg.contentSafeAreaInset||{}).top||0);}catch(e){return 0;}}
+function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r||10);else ctx.rect(x,y,w,h);}
+var S={total:0,stars:{},best:{},mute:0};
+try{var q0=JSON.parse(localStorage.getItem('az_save')||'null');if(q0)for(var k0 in q0)S[k0]=q0[k0];}catch(e){}
+function save(){try{localStorage.setItem('az_save',JSON.stringify(S));}catch(e){}}
+var actx=null;
+function initAudio(){try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();}catch(e){}}
+function beep(f,d,ty,v){try{if(!actx||S.mute)return;var o=actx.createOscillator(),g=actx.createGain();o.type=ty||'sine';o.frequency.value=f;g.gain.setValueAtTime(v||0.1,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+d);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+d);}catch(e){}}
+function buzz(k){try{tg&&tg.HapticFeedback&&tg.HapticFeedback.notificationOccurred(k);}catch(e){}}
+function tick(){try{tg&&tg.HapticFeedback&&tg.HapticFeedback.impactOccurred('light');}catch(e){}}
+function jingle(){[523,659,784,1046].forEach(function(f,i){setTimeout(function(){beep(f,.2,'triangle',.12);},i*110);});}
+var msg='',msgT=0;function toast(m){msg=m;msgT=performance.now()+1800;}
+
+/* ---------- машины ---------- */
+var SIL=false;
+function C(c){return SIL?'#2b2b45':c;}
+function box(x,y,w,h,r,c){ctx.fillStyle=C(c);rr(x,y,w,h,r);ctx.fill();}
+function circ(x,y,r,c){ctx.fillStyle=C(c);ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();}
+function wheel(x,y,r){circ(x,y,r,'#2a2a2a');if(!SIL){circ(x,y,r*.5,'#b9c2cc');circ(x,y,r*.18,'#6b747d');}}
+function win(x,y,w,h){box(x,y,w,h,5,'#bfe6ff');if(!SIL){ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.moveTo(x+4,y+h-3);ctx.lineTo(x+w*.4,y+3);ctx.lineTo(x+w*.4+9,y+3);ctx.lineTo(x+13,y+h-3);ctx.fill();}}
+function txt(s,x,y,sz,c){if(SIL)return;ctx.fillStyle=c;ctx.font='bold '+sz+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s,x,y);}
+var VEH={
+ taxi:function(c){c=c||'#ffd21f';box(-92,-2,184,36,12,c);box(-52,-28,104,32,13,c);win(-44,-22,40,20);win(0,-22,40,20);box(-16,-40,32,13,4,'#fff');txt(T('ТАКСИ'),0,-33,8,'#222');
+  for(var i=0;i<9;i++)if(!SIL){ctx.fillStyle=i%2?'#fff':'#222';ctx.fillRect(-72+i*16,12,8,7);}
+  box(78,6,12,9,3,'#fff6a0');wheel(-52,34,15);wheel(52,34,15);},
+ police:function(c){box(-92,-2,184,36,12,'#fafafa');box(-52,-28,104,32,13,'#fafafa');win(-44,-22,40,20);win(0,-22,40,20);box(-92,14,184,10,0,c||'#2f6fe8');
+  box(-20,-38,18,11,3,'#e53935');box(2,-38,18,11,3,'#2f6fe8');txt('★',-52,19,10,'#fff');box(78,6,12,9,3,'#fff6a0');wheel(-52,34,15);wheel(52,34,15);},
+ ambulance:function(c){box(-94,-30,150,64,12,'#fafafa');box(44,-14,50,48,12,'#fafafa');win(58,-8,30,22);box(-20,-40,34,11,4,'#e53935');
+  box(-52,-16,34,10,2,c||'#e53935');box(-40,-28,10,34,2,c||'#e53935');box(-94,18,188,8,0,c||'#e53935');box(86,8,10,9,3,'#fff6a0');wheel(-56,34,15);wheel(56,34,15);},
+ fire:function(c){c=c||'#e53935';box(-98,-8,196,44,10,c);box(40,-34,56,48,10,c);win(52,-28,34,22);
+  if(!SIL){ctx.fillStyle='#c9cdd2';ctx.fillRect(-90,-22,110,8);for(var i=0;i<10;i++)ctx.fillRect(-88+i*11,-22,3,8);ctx.fillRect(-90,-26,110,4);}else{box(-90,-26,110,12,2,'#000');}
+  box(-98,8,138,8,0,'#fff');box(86,6,12,9,3,'#fff6a0');wheel(-62,36,16);wheel(-20,36,16);wheel(66,36,16);},
+ bulldozer:function(c){c=c||'#ffbf1f';box(-52,-6,92,34,8,c);box(-34,-36,56,34,8,c);win(-26,-30,38,22);box(-48,-48,8,16,2,'#555');
+  box(-74,18,150,26,13,'#333');if(!SIL){[-52,-18,18,52].forEach(function(x){circ(x,31,9,'#6b6b6b');circ(x,31,3,'#222');});}
+  box(78,-8,10,54,3,'#9aa3ad');ctx.strokeStyle=C('#9aa3ad');ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(40,8);ctx.lineTo(80,14);ctx.stroke();},
+ dump:function(c){c=c||'#ff8f1f';box(-100,12,196,14,4,'#6b6b6b');box(44,-22,52,52,10,'#3fa34d');win(60,-14,28,22);
+  ctx.save();ctx.translate(-96,12);ctx.rotate(-.13);box(0,-46,138,46,6,c);if(!SIL){ctx.fillStyle='rgba(0,0,0,.12)';ctx.fillRect(0,-46,138,8);}ctx.restore();
+  wheel(-70,36,16);wheel(-30,36,16);wheel(66,36,16);},
+ race:function(c){c=c||'#e53935';box(-96,4,192,26,12,c);ctx.fillStyle=C(c);ctx.beginPath();ctx.moveTo(-34,6);ctx.quadraticCurveTo(-20,-24,12,-24);ctx.lineTo(30,6);ctx.fill();
+  if(!SIL){ctx.fillStyle='#bfe6ff';ctx.beginPath();ctx.moveTo(-24,4);ctx.quadraticCurveTo(-14,-18,8,-18);ctx.lineTo(20,4);ctx.fill();}
+  box(-100,-14,16,6,2,'#222');box(-96,-12,5,20,2,'#222');circ(-8,16,9,'#fff');txt('7',-8,17,12,'#222');box(84,10,10,8,3,'#fff6a0');wheel(-58,32,15);wheel(58,32,15);},
+ bus:function(c){c=c||'#ffb400';box(-98,-34,196,68,12,c);for(var i=0;i<5;i++)win(-86+i*33,-26,26,22);win(72,-26,20,22);box(-98,10,196,6,0,'#222');
+  box(-98,20,196,5,0,'#fff');box(90,16,8,9,3,'#fff6a0');wheel(-58,34,16);wheel(58,34,16);},
+ tractor:function(c){c=c||'#3fa34d';box(-22,-4,96,28,8,c);box(-6,-36,46,34,8,c);win(0,-30,34,22);box(54,-24,7,24,2,'#555');
+  circ(-40,22,30,'#2a2a2a');if(!SIL){circ(-40,22,17,c);circ(-40,22,6,'#ddd');}circ(62,32,15,'#2a2a2a');if(!SIL){circ(62,32,7,'#ddd');}
+  box(-96,16,40,10,3,'#8a8a8a');},
+ jeep:function(c){c=c||'#4aa86a';box(-92,-10,184,46,10,c);box(-62,-36,118,32,9,c);win(-54,-30,36,22);win(-12,-30,36,22);win(30,-30,20,22);
+  box(-60,-42,112,5,2,'#444');circ(-98,12,13,'#2a2a2a');box(80,2,12,10,3,'#fff6a0');wheel(-52,36,17);wheel(52,36,17);}
+};
+var VT=['taxi','police','ambulance','fire','bulldozer','dump','race','bus','tractor','jeep'];
+var VN={taxi:T('Такси'),police:T('Полиция'),ambulance:T('Скорая помощь'),fire:T('Пожарная'),bulldozer:T('Бульдозер'),dump:T('Самосвал'),race:T('Гоночная'),bus:T('Автобус'),tractor:T('Трактор'),jeep:T('Джип')};
+function drawVeh(t,x,y,sc,sil,col){ctx.save();ctx.translate(x,y);ctx.scale(sc,sc);SIL=!!sil;try{VEH[t](col);}catch(e){}SIL=false;ctx.restore();}
+
+/* ---------- выдуманные марки (значки) ---------- */
+var BR=[
+ {id:'mol',n:T('Молния'),c:'#e53935'},{id:'star',n:T('Звёздочка'),c:'#2f6fe8'},{id:'crown',n:T('Корона'),c:'#e0a800'},
+ {id:'wave',n:T('Волна'),c:'#13a8a8'},{id:'sun',n:T('Солнышко'),c:'#ff8f1f'},{id:'shield',n:T('Щит'),c:'#3fa34d'}];
+function emblem(id,x,y,r,c){ctx.save();ctx.translate(x,y);ctx.fillStyle=c;ctx.strokeStyle=c;ctx.lineWidth=r*.14;ctx.lineJoin='round';ctx.lineCap='round';
+ if(id==='mol'){ctx.beginPath();ctx.moveTo(r*.15,-r);ctx.lineTo(-r*.5,r*.1);ctx.lineTo(-r*.05,r*.1);ctx.lineTo(-r*.2,r);ctx.lineTo(r*.55,-r*.2);ctx.lineTo(r*.1,-r*.2);ctx.closePath();ctx.fill();}
+ else if(id==='star'){ctx.beginPath();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rad=i%2?r*.45:r;ctx.lineTo(Math.cos(a)*rad,Math.sin(a)*rad);}ctx.closePath();ctx.fill();}
+ else if(id==='crown'){ctx.beginPath();ctx.moveTo(-r,r*.6);ctx.lineTo(-r,-r*.5);ctx.lineTo(-r*.5,0);ctx.lineTo(0,-r*.8);ctx.lineTo(r*.5,0);ctx.lineTo(r,-r*.5);ctx.lineTo(r,r*.6);ctx.closePath();ctx.fill();[-r*.8,0,r*.8].forEach(function(px){ctx.beginPath();ctx.arc(px,-r*.55-(px===0?r*.3:0),r*.14,0,7);ctx.fill();});}
+ else if(id==='wave'){for(var j=0;j<3;j++){ctx.beginPath();for(var k=-1;k<=1.001;k+=.1){var px=k*r,py=(j-1)*r*.55+Math.sin(k*Math.PI*1.5)*r*.22;if(k===-1)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();}}
+ else if(id==='sun'){ctx.beginPath();ctx.arc(0,0,r*.5,0,7);ctx.fill();for(var m=0;m<8;m++){var an=m*Math.PI/4;ctx.beginPath();ctx.moveTo(Math.cos(an)*r*.72,Math.sin(an)*r*.72);ctx.lineTo(Math.cos(an)*r,Math.sin(an)*r);ctx.stroke();}}
+ else if(id==='shield'){ctx.beginPath();ctx.moveTo(-r*.8,-r*.8);ctx.lineTo(r*.8,-r*.8);ctx.lineTo(r*.8,0);ctx.quadraticCurveTo(r*.7,r*.7,0,r);ctx.quadraticCurveTo(-r*.7,r*.7,-r*.8,0);ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(0,-r*.5);ctx.lineTo(0,r*.6);ctx.lineWidth=r*.12;ctx.strokeStyle='#fff';ctx.stroke();}
+ ctx.restore();}
+
+/* ---------- состояние ---------- */
+var state='menu',mode=0,qi=0,Q=null,pts=0,first=0,firstTry=true,wrong={},okT=0,shakeId=-1,shakeT=0,btns=[],parts=[],t=0,qList=[],lastBr=-1,doneAt=0,resStars=0,resPts=0,bounce=0;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=(Math.random()*(i+1))|0,x=a[i];a[i]=a[j];a[j]=x;}return a;}
+function pick3(ci,n){var o=[ci];while(o.length<3){var r=(Math.random()*n)|0;if(o.indexOf(r)<0)o.push(r);}return shuffle(o);}
+function startMode(m){mode=m;qi=0;pts=0;first=0;state='quiz';initAudio();
+ if(m===3){qList=[];var prev=-1;for(var i=0;i<10;i++){var b;do{b=(Math.random()*BR.length)|0;}while(b===prev);prev=b;qList.push(b);}}
+ else qList=shuffle(VT.map(function(_,i){return i;}));
+ nextQ();}
+function nextQ(){
+ if(qi>=10){finish();return;}
+ var c=qList[qi];wrong={};firstTry=true;okT=0;shakeId=-1;
+ if(mode===3){var vt=['race','jeep','bus'][(Math.random()*4)|0];Q={c:c,opts:pick3(c,BR.length),veh:vt};}
+ else Q={c:c,opts:pick3(c,VT.length)};
+}
+function answer(idx){
+ if(okT||state!=='quiz')return;
+ var o=Q.opts[idx];
+ if(o===Q.c){okT=performance.now();if(firstTry){first++;pts+=10;}else pts+=5;beep(660,.12,'triangle',.14);setTimeout(function(){beep(880,.18,'triangle',.14);},110);buzz('success');
+  burst(W/2,H*.36);bounce=1;}
+ else{wrong[idx]=1;firstTry=false;shakeId=idx;shakeT=performance.now();beep(200,.25,'square',.08);buzz('error');}
+}
+function burst(x,y){for(var i=0;i<22;i++){var a=Math.random()*6.283,s=2+Math.random()*5;parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c:['#ffd21f','#ff6f91','#4cd964','#4aa8ff','#ff8f1f'][i%5]});}}
+function finish(){state='result';resPts=pts;resStars=first>=9?3:first>=6?2:1;
+ S.total+=pts;var old=S.stars[mode]||0;if(resStars>old)S.stars[mode]=resStars;if(pts>(S.best[mode]||0))S.best[mode]=pts;save();
+ try{LB.submit(S.total);}catch(e){}jingle();burst(W/2,H*.3);}
+
+/* ---------- рисование ---------- */
+function bg(){var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#aee4ff');g.addColorStop(.6,'#e6f7ff');g.addColorStop(1,'#bff0c8');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='rgba(255,255,255,.85)';[[.15,.12,34],[.7,.08,40],[.45,.2,28]].forEach(function(c){var x=c[0]*W+Math.sin(t*.2+c[0]*9)*10,y=c[1]*H+satop();ctx.beginPath();ctx.arc(x,y,c[2],0,7);ctx.arc(x+c[2]*.9,y+6,c[2]*.75,0,7);ctx.arc(x-c[2]*.9,y+8,c[2]*.65,0,7);ctx.fill();});}
+function btn(x,y,w,h,label,fn,primary,sz,col){btns.push({x:x,y:y,w:w,h:h,fn:fn});ctx.fillStyle=col||(primary?'#ffd21f':'#fff');rr(x,y,w,h,16);ctx.fill();ctx.strokeStyle=primary?'#e0a800':'#9ccbe8';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#24405a';ctx.font='bold '+(sz||19)+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,x+w/2,y+h/2+1);}
+function iconBtn(x,y,s,ic,fn){btns.push({x:x,y:y,w:s,h:s,fn:fn});ctx.fillStyle='rgba(255,255,255,.85)';rr(x,y,s,s,12);ctx.fill();ctx.font=(s*.5)+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#24405a';ctx.fillText(ic,x+s/2,y+s/2+1);}
+function ground(y){ctx.fillStyle='#7a8a99';ctx.fillRect(0,y,W,14);ctx.fillStyle='#fff';for(var i=0;i<W;i+=40)ctx.fillRect(i,y+5,22,3);}
+function drawMenu(){
+ bg();var sa=satop();ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillStyle='#1f5d8a';ctx.font='bold 36px system-ui';ctx.fillText(T('Автознайка'),W/2,sa+56);
+ ctx.font='15px system-ui';ctx.fillStyle='#3d7aa6';ctx.fillText(T('Угадай машину!'),W/2,sa+86);
+ var vy=sa+170,i=(Math.floor(t/2))%VT.length;drawVeh(VT[i],W/2+Math.sin(t*3)*3,vy,Math.min(1.1,W/330));ground(vy+52);
+ var bw=Math.min(300,W-48),bx=(W-bw)/2,y=vy+84,s;
+ var M=[[1,T('🚗 Что это за машина?')],[2,T('🌑 Чья тень?')],[3,T('🔰 Найди значок')]];
+ M.forEach(function(m){s=S.stars[m[0]]||0;btn(bx,y,bw,54,m[1],function(){startMode(m[0]);},m[0]===1,18);ctx.fillStyle='#e0a800';ctx.font='13px system-ui';ctx.textAlign='right';ctx.fillText('★'.repeat(s)+'☆'.repeat(3-s),bx+bw-12,y+44);y+=64;});
+ ctx.textAlign='center';ctx.fillStyle='#1f5d8a';ctx.font='bold 16px system-ui';ctx.fillText('⭐ '+S.total,W/2,y+8);
+ var by=H-60;btn(bx,by,bw-108,44,T('👥 Позвать друга'),share,false,15);
+ iconBtn(bx+bw-100,by,44,'🏆',function(){LB.open();});iconBtn(bx+bw-48,by,44,S.mute?'🔇':'🔊',function(){S.mute=S.mute?0:1;save();});
+}
+function drawQuiz(){
+ bg();var sa=satop();btns=[];
+ iconBtn(10,sa+10,44,'←',function(){state='menu';});
+ ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#1f5d8a';ctx.font='bold 17px system-ui';ctx.fillText((qi+1)+' / 10',W/2,sa+26);
+ ctx.font='bold 15px system-ui';ctx.textAlign='right';ctx.fillStyle='#e0a800';ctx.fillText('⭐ '+pts,W-14,sa+26);
+ // прогресс-точки
+ for(var d=0;d<10;d++){ctx.fillStyle=d<qi?'#4cd964':d===qi?'#ffd21f':'rgba(255,255,255,.8)';ctx.beginPath();ctx.arc(W/2-45+d*10,sa+48,3.5,0,7);ctx.fill();}
+ var title=mode===1?T('Что это за машина?'):mode===2?T('Чья это тень?'):T('Какой значок у этой машины?');
+ ctx.textAlign='center';ctx.fillStyle='#24405a';ctx.font='bold 21px system-ui';ctx.fillText(title,W/2,sa+86);
+ var vy=sa+(H-sa)*.34;var sc=Math.min(1.5,W/250);
+ var ok=!!okT,bo=ok?Math.abs(Math.sin((performance.now()-okT)/110))*10:0;
+ if(mode===1){drawVeh(VT[Q.c],W/2,vy-bo,sc);}
+ else if(mode===2){drawVeh(VT[Q.c],W/2,vy-bo,sc,!ok);}
+ else{drawVeh(Q.veh,W/2,vy-bo,sc,false,BR[Q.c].c);
+  ctx.fillStyle='#24405a';ctx.font='bold 19px system-ui';ctx.fillText(T('Марка: ')+BR[Q.c].n,W/2,vy+54*sc+44);
+  if(ok)emblem(BR[Q.c].id,W/2+4,vy+4-bo,18,'#fff');}
+ ground(vy+54*sc);
+ // варианты
+ if(mode===1){var bw=Math.min(320,W-40),bx=(W-bw)/2,by=H-3*66-14;
+  for(var i=0;i<3;i++){(function(i){var o=Q.opts[i],isOk=ok&&o===Q.c,bad=wrong[i];var ox=(shakeId===i&&performance.now()-shakeT<350)?Math.sin((performance.now()-shakeT)/25)*8:0;
+   btn(bx+ox,by+i*66,bw,56,VN[VT[o]],function(){answer(i);},false,21,isOk?'#b7f5c4':bad?'#ffc9c9':null);})(i);}}
+ else{var gap=10,cw=(W-32-gap*2)/3,ch=Math.min(130,cw*1.15),cy0=H-ch-30;
+  for(var j=0;j<3;j++){(function(j){var o=Q.opts[j],x=16+j*(cw+gap),isOk=ok&&o===Q.c,bad=wrong[j];var ox=(shakeId===j&&performance.now()-shakeT<350)?Math.sin((performance.now()-shakeT)/25)*8:0;
+   btns.push({x:x,y:cy0,w:cw,h:ch,fn:function(){answer(j);}});ctx.fillStyle=isOk?'#b7f5c4':bad?'#ffc9c9':'#fff';rr(x+ox,cy0,cw,ch,18);ctx.fill();ctx.strokeStyle='#9ccbe8';ctx.lineWidth=3;ctx.stroke();
+   if(mode===2){drawVeh(VT[o],x+ox+cw/2,cy0+ch/2+2,cw/230);}
+   else{emblem(BR[o].id,x+ox+cw/2,cy0+ch/2,cw*.3,BR[o].c);}})(j);}}
+ if(ok&&performance.now()-okT>950){qi++;nextQ();}
+}
+function drawResult(){
+ bg();btns=[];var sa=satop();ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillStyle='#fff';rr(W/2-150,sa+60,300,190,24);ctx.fill();
+ ctx.fillStyle='#e8478b';ctx.font='bold 28px system-ui';ctx.fillText(resStars===3?T('Отлично! 🎉'):resStars===2?T('Молодец! 👍'):T('Хорошо! 🙂'),W/2,sa+100);
+ ctx.fillStyle='#f0a000';ctx.font='42px system-ui';ctx.fillText('★'.repeat(resStars)+'☆'.repeat(3-resStars),W/2,sa+155);
+ ctx.fillStyle='#24405a';ctx.font='bold 18px system-ui';ctx.fillText(T('Верно с первого раза: ')+first+T(' из 10'),W/2,sa+205);
+ ctx.fillText('+'+resPts+' ⭐',W/2,sa+232);
+ var bw=Math.min(300,W-48),bx=(W-bw)/2,y=sa+290;
+ btn(bx,y,bw,54,T('🔁 Ещё раз'),function(){startMode(mode);},true);y+=66;
+ btn(bx,y,bw,54,T('🏠 В меню'),function(){state='menu';},false);y+=66;
+ btn(bx,y,bw,54,T('👥 Позвать друга (+20 ⭐)'),share,false,17);
+}
+function share(){var url=REF.link(SHARE_URL)||(location.origin+location.pathname),text=T('Угадай машину! Я набрал ')+S.total+T(' ⭐ в «Автознайке» 🚗');
+ var link='https://t.me/share/url?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text);
+ try{if(tg&&tg.openTelegramLink){tg.openTelegramLink(link);return;}}catch(e){}
+ try{if(navigator.share){navigator.share({title:T('Автознайка'),text:text,url:url}).catch(function(){});return;}}catch(e){}
+ try{navigator.clipboard.writeText(text+' '+url).then(function(){toast(T('Ссылка скопирована'));});}catch(e){toast(url);}}
+var last=performance.now();
+function loop(now){var dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
+ btns=[];if(state==='menu')drawMenu();else if(state==='quiz')drawQuiz();else drawResult();
+ for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.l-=dt*1.1;if(p.l<=0){parts.splice(i,1);continue;}ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,7,7);}ctx.globalAlpha=1;
+ if(msg&&performance.now()<msgT){ctx.font='bold 15px system-ui';var w=ctx.measureText(msg).width+30;ctx.fillStyle='rgba(30,30,50,.88)';rr(W/2-w/2,H-130,w,36,18);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(msg,W/2,H-112);}
+ requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+window.__dbg={startMode:startMode,answer:answer,get Q(){return Q;},get state(){return state;},get qi(){return qi;}};
+cv.addEventListener('pointerdown',function(e){initAudio();});
+cv.addEventListener('click',function(e){for(var i=btns.length-1;i>=0;i--){var b=btns[i];if(e.clientX>=b.x&&e.clientX<=b.x+b.w&&e.clientY>=b.y&&e.clientY<=b.y+b.h){tick();b.fn();return;}}});
+})();
+</script>
+</body>
+</html>
